@@ -2,6 +2,7 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest, Forbidden } from "../utils/Errors";
 
 class ChannelsService{
+
   async getAll() {
     let channels = await dbContext.Channels.find().populate("userCount creator", 'name picture')
     return channels
@@ -60,6 +61,13 @@ class ChannelsService{
     let messages = await dbContext.Messages.find({channelId})
     .populate("creator", 'name picture')
     return messages
+  }
+
+  // SECTION ROOMS
+
+  async getRooms(channelId) {
+   let rooms = await dbContext.Rooms.find({channelId}).populate("creator", 'name picture').populate("channel", 'name description creatorId')
+   return rooms
   }
 
 }
