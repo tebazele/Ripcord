@@ -1,8 +1,8 @@
 <template>
-  <section class="container-fluid">
+  <section class="container-fluid bigHeight">
     <div class="row">
       <!-- SECTION CHANNEL LIST -->
-      <div class="col-md-1 bg-primary">
+      <div class="col-md-1 bg-primary bigHeight">
         <div class="row" v-for="c in channels" :key="c.id">
           <ServerList :server="c" />
         </div>
@@ -10,11 +10,11 @@
       <!-- SECTION CHANNEL INFORMATION/CHAT ROOMS -->
       <div v-if="channel" class="col-md-2 bg-secondary">
         <div class="row">
-          <div class="col-12">
-            {{ channel.name }}
+          <div class="col-12 my-3 border-bottom border-dark">
+            <h5>{{ channel.name }}</h5>
           </div>
           <div v-for="r in rooms" :key="r.id" class="col-12">
-            <h5 @click="setActiveRoom(r.id)">{{ r.title }}</h5>
+            <h6 class="selectable" @click="setActiveRoom(r.id)">{{ r.title }}</h6>
           </div>
         </div>
       </div>
@@ -43,7 +43,19 @@
       </div>
       <div class="col-md-2 bg-success">
         <div class="row">
-          <div class="col-12">Who's Online</div>
+          <div class="col-12 border-bottom border-dark my-3">
+            <h2>Who's Online</h2>
+          </div>
+          <div class="col-10" v-for="u in users" :key="u.id">
+            <div class="row">
+              <div class="col-2">
+                <img class="onlinePicture" :src=u.Profile.picture alt="">
+              </div>
+              <div class="col-10">
+                {{ u.Profile.name }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -100,6 +112,7 @@ export default {
       rooms: computed(() => AppState.rooms),
       room: computed(() => AppState.room),
       messages: computed(() => AppState.messages),
+      users: computed(() => AppState.users),
 
       async setActiveRoom(roomId) {
         try {
@@ -120,5 +133,15 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50%;
+}
+
+.onlinePicture {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+}
+
+.bigHeight {
+  height: 92.7vh;
 }
 </style>

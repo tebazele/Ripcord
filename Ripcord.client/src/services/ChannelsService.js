@@ -21,8 +21,7 @@ class ChannelsService {
 
   async getUsers() {
     const res = await api.get("api/channels/64359c414dc0b5da04e9666e/users");
-    let users = res.data.map((u) => new User(u));
-    logger.log(users);
+    AppState.users = res.data.map((u) => new User(u));
   }
 
   async getMessages() {

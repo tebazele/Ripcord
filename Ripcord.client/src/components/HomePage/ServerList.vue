@@ -1,6 +1,6 @@
 <template>
   <div @click="setActiveChannel(server.id)" class="col-12 text-center">
-    <img class="my-1 channelImage" :src=server.img :title=server.name alt="Channel Image" srcset="">
+    <img class="my-1 channelImage selectable" :src=server.img :title=server.name alt="Channel Image" srcset="">
   </div>
 </template>
 
@@ -40,5 +40,6 @@ export default {
   height: 75px;
   width: 75px;
   border-radius: 50%;
+  cursor: pointer;
 }
 </style>
