@@ -17,6 +17,7 @@ class ChannelsService {
     logger.log(new Channel(res.data));
     AppState.channel = new Channel(res.data);
     await this.getRooms(serverId);
+    await this.getUsers(serverId);
   }
 
   async getUsers() {

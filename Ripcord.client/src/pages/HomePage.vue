@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
@@ -76,9 +76,10 @@ export default {
   setup() {
     onMounted(() => {
       getChannels();
-      getUsers();
+      // getUsers();
       // getMessages();
     });
+
     async function getChannels() {
       try {
         await channelsService.getAll();
@@ -88,15 +89,7 @@ export default {
         Pop.error(("[ERROR]"), error.message);
       }
     }
-    async function getUsers() {
-      try {
-        await channelsService.getUsers();
-      }
-      catch (error) {
-        logger.error("[ERROR]", error);
-        Pop.error(("[ERROR]"), error.message);
-      }
-    }
+
     // async function getMessages() {
     //   try {
     //     await channelsService.getMessages();
@@ -106,6 +99,9 @@ export default {
     //     Pop.error(("[ERROR]"), error.message);
     //   }
     // }
+    onUnmounted(() => {
+      AppState.users = []
+    });
     return {
       channels: computed(() => AppState.channels),
       channel: computed(() => AppState.channel),
@@ -120,6 +116,16 @@ export default {
         } catch (error) {
           logger.error('[ERROR]', error)
           Pop.error(('[ERROR]'), error.message)
+        }
+      },
+
+      async getUsers() {
+        try {
+          await channelsService.getUsers();
+        }
+        catch (error) {
+          logger.error("[ERROR]", error);
+          Pop.error(("[ERROR]"), error.message);
         }
       }
     };
