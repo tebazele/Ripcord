@@ -40,6 +40,11 @@
             </div>
           </div>
         </div>
+        <div class="row justify-content-center m-2">
+          <textarea @keydown.enter.prevent="createMessage(room.id)"
+            class="col-12 rounded align-items-center py-2 form-control" name="description" v-model="editable.body" id=""
+            cols="" rows="1" placeholder="Write your message..."></textarea>
+        </div>
       </div>
       <div class="col-md-2 bg-success">
         <div class="row">
@@ -63,10 +68,11 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
+import { messagesService } from "../services/MessagesService"
 import { roomsService } from "../services/RoomsService"
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState";
@@ -79,6 +85,7 @@ export default {
       // getUsers();
       // getMessages();
     });
+    const editable = ref({})
 
     async function getChannels() {
       try {
@@ -109,6 +116,7 @@ export default {
       room: computed(() => AppState.room),
       messages: computed(() => AppState.messages),
       users: computed(() => AppState.users),
+      editable,
 
       async setActiveRoom(roomId) {
         try {
@@ -126,6 +134,18 @@ export default {
         catch (error) {
           logger.error("[ERROR]", error);
           Pop.error(("[ERROR]"), error.message);
+        }
+      },
+
+      async createMessage(roomId) {
+        try {
+          let messageData = editable.value
+          messageData.roomId = roomId
+          await messagesService.createMessage(messageData)
+          editable.value = {}
+        } catch (error) {
+          logger.error('[ERROR]', error)
+          Pop.error(('[ERROR]'), error.message)
         }
       }
     };

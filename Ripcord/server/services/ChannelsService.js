@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext";
 import { BadRequest, Forbidden } from "../utils/Errors";
+import {roomsService} from "../services/RoomsService"
 
 class ChannelsService{
 
@@ -22,6 +23,11 @@ class ChannelsService{
     let channel = await dbContext.Channels.create(channelBody)
     await channel.populate("userCount")
     await channel.populate("creator", 'name, picture')
+    let roomData = {}
+    roomData.channelId = channel.id
+    roomData.creatorId = channelBody.creatorId
+    roomData.title = "Welcome"
+    await roomsService.create(roomData)
     return channel
   }
 
