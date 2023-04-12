@@ -13,6 +13,8 @@ export const AppState = reactive({
   rooms: [],
   /** @type {import('./models/Room.js').Room||null} */
   room: null,
+  /** @type {import('./models/Message.js').Message[]} */
+  messages: [],
   /** @type {import('./models/User.js').User[]} */
   users: [],
 });

@@ -8,7 +8,7 @@ export class ChannelsController extends BaseController{
     this.router
     .get("", this.getAll)
     .get("/:id", this.getOne)
-    .get("/:id/messages", this.getMessages)
+    // .get("/:id/messages", this.getMessages)
     .get("/:id/users", this.getUsers)
     .get("/:id/rooms", this.getRooms)
     .use(Auth0Provider.getAuthorizedUserInfo)
@@ -84,15 +84,15 @@ export class ChannelsController extends BaseController{
 
   // SECTION MESSAGES
 
-  async getMessages(req, res, next) {
-    try {
-      let channelId = req.params.id
-      let messages = await channelsService.getMessages(channelId)
-      return res.send(messages)
-    } catch (error) {
-      next(error)
-    }
-  }
+  // async getMessages(req, res, next) {
+  //   try {
+  //     let channelId = req.params.id
+  //     let messages = await channelsService.getMessages(channelId)
+  //     return res.send(messages)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 
   // SECTION ROOMS
 

@@ -7,6 +7,7 @@ export class RoomsController extends BaseController{
     super('api/rooms')
     this.router
     .get("/:id", this.getOne)
+    .get("/:id/messages", this.getMessages)
     .use(Auth0Provider.getAuthorizedUserInfo)
     .post("", this.create)
     .put("/:id", this.edit)
@@ -56,4 +57,17 @@ export class RoomsController extends BaseController{
       next(error)
     }
   }
+
+  // SECTION MESSAGES
+
+  async getMessages(req, res, next) {
+    try {
+      let roomId = req.params.id
+      let messages = await roomsService.getMessages(roomId)
+      return res.send(messages)
+    } catch (error) {
+      next(error)
+    }
+  }
+
 }

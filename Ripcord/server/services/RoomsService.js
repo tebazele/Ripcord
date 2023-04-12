@@ -2,6 +2,7 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest, Forbidden } from "../utils/Errors";
 
 class RoomsService{
+
   async getOne(roomId) {
     let room = await dbContext.Rooms.findById(roomId).populate("creator", 'name picture').populate("channel", 'name description creatorId')
     if(room == null) {
@@ -31,6 +32,13 @@ class RoomsService{
     }
     await room.remove()
     return `Successfully removed room ${room.title}.`
+  }
+
+  // SECTION MESSAGES
+
+  async getMessages(roomId) {
+    let messages = await dbContext.Messages.find({roomId}).populate("creator", 'picture name')
+    return messages
   }
 
 }

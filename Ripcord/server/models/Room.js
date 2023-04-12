@@ -17,5 +17,5 @@ RoomsSchema.virtual('channel', {
   localField: "channelId",
   foreignField: "_id",
   justOne: true,
-  ref: "Ch"
+  ref: "Channel"
 })

@@ -14,13 +14,38 @@
             {{ channel.name }}
           </div>
           <div v-for="r in rooms" :key="r.id" class="col-12">
-            <h1 @click="setActiveRoom(r.id)">{{ r.title }}</h1>
+            <h5 @click="setActiveRoom(r.id)">{{ r.title }}</h5>
           </div>
         </div>
       </div>
       <div v-if="!room" class="col-md-7 bg-dark">center</div>
-      <div v-else class="col-md-7 bg-dark">{{ room.title }}</div>
-      <div class="col-md-2 bg-success">right</div>
+      <div v-else class="col-md-7 bg-dark">
+        <div class="row">
+          <div class="col-12">
+            <h1># {{ room.title }}</h1>
+          </div>
+        </div>
+        <div class="row bg-light m-2 rounded d-flex align-items-center" v-for="m in messages" :key="m.id">
+          <div class="col-1">
+            <img class="profilePicture" :src=m.Creator.picture alt="">
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 mt-2">
+                <h6>{{ m.Creator.name }}</h6>
+              </div>
+              <div class="col-12">
+                <p>{{ m.body }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 bg-success">
+        <div class="row">
+          <div class="col-12">Who's Online</div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -40,7 +65,7 @@ export default {
     onMounted(() => {
       getChannels();
       getUsers();
-      getMessages();
+      // getMessages();
     });
     async function getChannels() {
       try {
@@ -60,20 +85,21 @@ export default {
         Pop.error(("[ERROR]"), error.message);
       }
     }
-    async function getMessages() {
-      try {
-        await channelsService.getMessages();
-      }
-      catch (error) {
-        logger.error("[ERROR]", error);
-        Pop.error(("[ERROR]"), error.message);
-      }
-    }
+    // async function getMessages() {
+    //   try {
+    //     await channelsService.getMessages();
+    //   }
+    //   catch (error) {
+    //     logger.error("[ERROR]", error);
+    //     Pop.error(("[ERROR]"), error.message);
+    //   }
+    // }
     return {
       channels: computed(() => AppState.channels),
       channel: computed(() => AppState.channel),
       rooms: computed(() => AppState.rooms),
       room: computed(() => AppState.room),
+      messages: computed(() => AppState.messages),
 
       async setActiveRoom(roomId) {
         try {
@@ -89,4 +115,10 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.profilePicture {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+</style>
