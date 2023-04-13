@@ -17,6 +17,8 @@ export const AppState = reactive({
   messages: [],
   /** @type {import('./models/User.js').User[]} */
   users: [],
-   /** @type {import('./models/Friend.js').Friend[]} */
+  /** @type {import('./models/Friend.js').Friend[]} */
   friends: [],
+  /** @type {import('./models/Friend.js').Friend||null} */
+  friend: null,
 });

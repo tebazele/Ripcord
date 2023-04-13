@@ -43,6 +43,7 @@ export default {
 .onlinePicture {
   height: 35px;
   width: 35px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
 }
 

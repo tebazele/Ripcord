@@ -35,9 +35,16 @@ export default {
 
 <style scoped>
 .channelImage {
-  height: 75px;
-  width: 75px;
+  height: auto;
+  width: 75%;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   cursor: pointer;
+  object-position: center;
+  object-fit: cover;
 }
+
+/* .channelImage:hover {
+
+} */
 </style>

@@ -8,9 +8,11 @@
     </div>
     <div class="row middleChat verticalScroll">
       <div v-for="f in friends" :key="f.id" class="col-12 mt-2">
-        <h6 class="selectable" @click="setActiveFriend(f.id)">
-          <img class="onlinePicture" :src="f.Friend.picture" alt=""> {{ f.Friend.name }}
-        </h6>
+        <router-link :to="{ name: 'Friend', params: { id: f.id } }">
+          <h6 class="selectable" @click="setActiveFriend(f.id)">
+            <img class="onlinePicture" :src="f.Friend.picture" alt=""> {{ f.Friend.name }}
+          </h6>
+        </router-link>
       </div>
     </div>
     <div class="row bottomChat align-items-center">
@@ -49,7 +51,9 @@
         <h5>{{ account.name }}</h5>
       </div>
       <div class="col-1">
-        <i class="selectable mdi mdi-cog"></i>
+        <i class="selectable mdi mdi-cog">
+          <Login />
+        </i>
       </div>
     </div>
   </div>
@@ -58,24 +62,41 @@
 <script>
 import { computed } from "vue";
 import { AppState } from "../../AppState";
+import { logger } from "../../utils/Logger";
+import Pop from "../../utils/Pop";
+import { roomsService } from "../../services/RoomsService";
+import { friendsService } from "../../services/FriendsService"
+import Login from "../../components/Login.vue"
 
 
 export default {
-
-
-
   setup() {
-
-
-
     return {
       channel: computed(() => AppState.channel),
       friends: computed(() => AppState.friends),
       account: computed(() => AppState.account),
-      rooms: computed(() => AppState.rooms)
-
-    }
-  }
+      rooms: computed(() => AppState.rooms),
+      async setActiveRoom(roomId) {
+        try {
+          await roomsService.setActiveRoom(roomId);
+        }
+        catch (error) {
+          logger.error("[ERROR]", error);
+          Pop.error(("[ERROR]"), error.message);
+        }
+      },
+      async setActiveFriend(friendId) {
+        try {
+          await friendsService.setActiveFriend(friendId);
+        }
+        catch (error) {
+          logger.error("[ERROR]", error);
+          Pop.error(("[ERROR]"), error.message);
+        }
+      }
+    };
+  },
+  components: { Login }
 }
 </script>
 
@@ -106,6 +127,7 @@ export default {
 .onlinePicture {
   height: 35px;
   width: 35px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
 }
 </style>

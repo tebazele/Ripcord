@@ -16,6 +16,11 @@ class FriendsService{
     otherFriend.friendId = friendBody.creatorId
     otherFriend.creatorId = friendBody.friendId
     await dbContext.Friends.create(otherFriend)
+    let roomBody = {}
+    roomBody.channelId = friendBody.friendId
+    roomBody.creatorId = friendBody.creatorId
+    roomBody.title = "Friend"
+    await dbContext.Rooms.create(roomBody)
     return friend
   }
   async delete(friendId, userId) {

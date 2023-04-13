@@ -1,8 +1,13 @@
 <template>
   <div class="container">
-    <router-link :to="{name: 'Home'}">
+    <router-link :to="{ name: 'Home' }">
       <div class="btn btn-outline-dark mt-4">Home</div>
     </router-link>
+    <div class="row">
+      <div class="col-1">
+        <Login />
+      </div>
+    </div>
     <h1 class="mt-5">Account Information</h1>
     <div class="user-info">
       <div class="user-avatar">
@@ -37,10 +42,10 @@
           </form>
         </div>
       </div>
-      <div class="delete-account">
+      <!-- <div class="delete-account">
         <h3>Delete Account</h3>
         <button @click="deleteAccount">Delete My Account</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -51,6 +56,7 @@ import { AppState } from "../AppState";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { accountService } from "../services/AccountService";
+import Login from "../components/Login.vue"
 
 export default {
   data() {
@@ -70,6 +76,7 @@ export default {
       }
     };
   },
+  components: { Login }
 };
 </script>
 

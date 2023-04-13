@@ -22,6 +22,7 @@ class ChannelsService {
 
   async getUsers() {
     const res = await api.get("api/channels/64359c414dc0b5da04e9666e/users");
+    logger.log("[GETTING ROOMS USERS]");
     AppState.users = res.data.map((u) => new User(u));
   }
 

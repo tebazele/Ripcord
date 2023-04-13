@@ -18,12 +18,11 @@ import { onMounted, onUnmounted } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
-import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState";
 import FriendRoomList from "../components/HomePage/FriendRoomList.vue";
-import ChannelList from "../components/HomePage/ChannelList.vue"
-import ChatRoom from "../components/HomePage/ChatRoom.vue"
+import ChatRoom from "../components/HomePage/ChatRoom.vue";
 import WhoIsOnline from "../components/HomePage/WhoIsOnline.vue";
+import ChannelList from "../components/HomePage/ChannelList.vue";
 
 export default {
   setup() {
@@ -45,7 +44,7 @@ export default {
     return {
     };
   },
-  components: { FriendRoomList, ChannelList, ChatRoom, WhoIsOnline }
+  components: { FriendRoomList, ChatRoom, WhoIsOnline, ChannelList }
 }
 </script>
 
