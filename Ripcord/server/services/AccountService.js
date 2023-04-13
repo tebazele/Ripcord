@@ -46,6 +46,16 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+
+  // SECTION FRIENDS
+  async getFriends(creatorId) {
+    let friends = await dbContext.Friends.find({creatorId}).populate('friend', 'name picture')
+    return friends
+  }
+
+
+
+
   /**
    * Returns a user account from the Auth0 user object
    *

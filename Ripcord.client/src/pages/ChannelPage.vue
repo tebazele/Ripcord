@@ -161,6 +161,8 @@ export default {
 
     onUnmounted(() => {
       AppState.users = []
+      AppState.room = null
+      AppState.channel = null
     });
     return {
       account: computed(() => AppState.account),

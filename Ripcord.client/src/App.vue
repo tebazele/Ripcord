@@ -1,7 +1,7 @@
 <template>
-  <header>
+  <!-- <header>
     <Navbar />
-  </header>
+  </header> -->
   <main>
     <router-view />
   </main>
@@ -25,17 +25,6 @@ export default {
 @import "./assets/scss/main.scss";
 
 :root {
-  --main-height: calc(100vh - 32px - 64px);
-}
-
-
-footer {
-  display: grid;
-  place-content: center;
-  height: 32px;
-}
-
-.bigHeight {
-  height: 100vh;
+  --main-height: calc(100dvh - 32px - 64px);
 }
 </style>
