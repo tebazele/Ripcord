@@ -12,3 +12,15 @@ FriendsSchema.virtual("friend", {
   justOne: true,
   ref: "Account"
 })
+
+FriendsSchema.virtual("account", {
+  localField: "creatorId",
+  foreignField: "_id",
+  justOne: true,
+  ref: "Account"
+})
+
+FriendsSchema.virtual("room", {
+  localField: "_id",
+  foreignField: ""
+})

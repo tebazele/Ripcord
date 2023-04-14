@@ -6,13 +6,25 @@ export class RoomsController extends BaseController{
   constructor() {
     super('api/rooms')
     this.router
+    .get("", this.getAll)
     .get("/:id", this.getOne)
     .get("/:id/messages", this.getMessages)
     .use(Auth0Provider.getAuthorizedUserInfo)
+    .get("/:id/friend", this.getFriendRoom)
     .post("", this.create)
     .put("/:id", this.edit)
     .delete("/:id", this.delete)
   }
+
+  async getAll (req, res, next) {
+  try {
+    let rooms = await roomsService.getAll()
+    return res.send(rooms)
+  } catch (error) {
+    next(error)
+  }
+  }
+
 
   async getOne(req, res, next) {
     try {
@@ -69,5 +81,18 @@ export class RoomsController extends BaseController{
       next(error)
     }
   }
+
+  // SECTION FRIENDS
+
+  async getFriendRoom (req, res, next) {
+  try {
+    let channelId = req.params.id
+    let room = await roomsService.getFriendRoom(channelId)
+    return res.send(room)
+  } catch (error) {
+    next(error)
+  }
+  }
+
 
 }

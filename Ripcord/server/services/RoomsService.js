@@ -2,6 +2,17 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest, Forbidden } from "../utils/Errors";
 
 class RoomsService{
+  async getFriendRoom(channelId) {
+    let room = await dbContext.Rooms.findOne({channelId}).populate("creator", 'name picture').populate("channel", 'name description creatorId')
+    if(room == null) {
+      throw new BadRequest("Sorry, that room doesn't exist.")
+    }
+    return room
+  }
+  async getAll() {
+    let rooms = await dbContext.Rooms.find().populate("creator", 'name picture').populate("channel", 'name description creatorId')
+    return rooms
+  }
 
   async getOne(roomId) {
     let room = await dbContext.Rooms.findById(roomId).populate("creator", 'name picture').populate("channel", 'name description creatorId')

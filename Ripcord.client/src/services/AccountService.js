@@ -21,6 +21,8 @@ class AccountService {
 
   async getFriends() {
     const res = await api.get("/account/friends");
+    logger.log(res.data);
+    logger.log(res.data.filter((f) => f.account.id != AppState.account.id));
     AppState.friends = res.data.map((f) => new Friend(f));
   }
 }

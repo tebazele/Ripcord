@@ -5,5 +5,6 @@ export class Friend {
     this.id = data.id;
     this.isFriend = data.isFriend;
     this.Friend = new Profile(data.friend);
+    this.Account = new Profile(data.account);
   }
 }

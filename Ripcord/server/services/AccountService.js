@@ -49,7 +49,7 @@ class AccountService {
 
   // SECTION FRIENDS
   async getFriends(creatorId) {
-    let friends = await dbContext.Friends.find({creatorId}).populate('friend', 'name picture')
+    let friends = await dbContext.Friends.find({creatorId}).populate('friend', 'name picture').populate("account", 'name picture')
     return friends
   }
 

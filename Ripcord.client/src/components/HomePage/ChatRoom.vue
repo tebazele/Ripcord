@@ -1,8 +1,13 @@
 <template>
-  <div v-if="!room" class="col-md-6 bgLight verticalScroll"># No Room</div>
+  <div v-if="!room" class="col-md-6 bgLight verticalScroll">
+    <h1>#Hello {{ account.name }}</h1>
+  </div>
   <div v-else class="col-md-6 bgLight verticalScroll">
     <div class="row">
-      <div class="col-12">
+      <div v-if="friend" class="col-12">
+        <h1># {{ friend.Friend.name }}</h1>
+      </div>
+      <div v-else class="col-12">
         <h1># {{ room.title }}</h1>
       </div>
     </div>
@@ -34,6 +39,7 @@ import { computed, ref } from "vue";
 import { AppState } from "../../AppState";
 import { logger } from "../../utils/Logger";
 import Pop from "../../utils/Pop";
+import { messagesService } from "../../services/MessagesService";
 
 
 export default {
@@ -48,6 +54,8 @@ export default {
     return {
       room: computed(() => AppState.room),
       messages: computed(() => AppState.messages),
+      friend: computed(() => AppState.friend),
+      account: computed(() => AppState.account),
       editable,
 
       async createMessage(roomId) {

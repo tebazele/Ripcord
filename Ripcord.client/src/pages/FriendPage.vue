@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
@@ -23,12 +23,16 @@ import FriendRoomList from "../components/HomePage/FriendRoomList.vue";
 import ChannelList from "../components/HomePage/ChannelList.vue"
 import ChatRoom from "../components/HomePage/ChatRoom.vue"
 import WhoIsOnline from "../components/HomePage/WhoIsOnline.vue";
+import { useRoute } from "vue-router";
+import { roomsService } from "../services/RoomsService";
 
 export default {
   setup() {
     onMounted(() => {
       getChannels();
+      getRoom()
     });
+    const route = useRoute()
     async function getChannels() {
       try {
         await channelsService.getAll();
@@ -36,6 +40,16 @@ export default {
       catch (error) {
         logger.error("[ERROR]", error);
         Pop.error(("[ERROR]"), error.message);
+      }
+    }
+
+    async function getRoom() {
+      try {
+        let roomId = route.params.id
+        await roomsService.getFriendRoom(roomId)
+      } catch (error) {
+        logger.error('[ERROR]', error)
+        Pop.error(('[ERROR]'), error.message)
       }
     }
 
@@ -53,6 +67,7 @@ export default {
       resetAppState()
     });
     return {
+
     };
   },
   components: { FriendRoomList, ChannelList, ChatRoom, WhoIsOnline }

@@ -3,7 +3,7 @@ import { BadRequest, Forbidden } from "../utils/Errors";
 
 class FriendsService{
   async getOne(friendId) {
-    let friend = await dbContext.Friends.findById(friendId).populate('friend', 'picture name')
+    let friend = await dbContext.Friends.findById(friendId).populate('friend', 'picture name').populate('account', 'picture name')
     if(friend == null) {
       throw new BadRequest('Sorry, that friend does not exist.')
     }
@@ -12,12 +12,13 @@ class FriendsService{
   async create(friendBody) {
     let friend = await dbContext.Friends.create(friendBody)
     await friend.populate("friend", 'picture name')
+    await friend.populate("account", 'picture, name')
     let otherFriend = friendBody
     otherFriend.friendId = friendBody.creatorId
     otherFriend.creatorId = friendBody.friendId
-    await dbContext.Friends.create(otherFriend)
+    let roomFriend = await dbContext.Friends.create(otherFriend)
     let roomBody = {}
-    roomBody.channelId = friendBody.friendId
+    roomBody.channelId = friend.id
     roomBody.creatorId = friendBody.creatorId
     roomBody.title = "Friend"
     await dbContext.Rooms.create(roomBody)

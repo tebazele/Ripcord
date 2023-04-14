@@ -11,8 +11,18 @@ class RoomsService {
     this.getMessages(roomId);
   }
 
+  async getFriendRoom(friendId) {
+    const res = await api.get(`api/rooms/${friendId}/friend`);
+    logger.log("[GETTING FRIEND ROOM]", res.data);
+    // logger.log(new Room(res.data));
+    AppState.room = new Room(res.data);
+    let roomId = res.data.id;
+    this.getMessages(roomId);
+  }
+
   async getMessages(roomId) {
     const res = await api.get(`api/rooms/${roomId}/messages`);
+    logger.log(res.data);
     AppState.messages = res.data.map((m) => new Message(m));
   }
 }

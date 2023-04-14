@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <router-link :to="{ name: 'Home' }">
-      <div class="btn btn-outline-dark mt-4">Home</div>
+      <div class="btn btn-outline-light mt-4">Home</div>
     </router-link>
     <div class="row">
       <div class="col-1">
@@ -108,5 +108,10 @@ export default {
 
 .delete-account button {
   color: red;
+}
+
+body {
+  background-color: rgb(53, 51, 51);
+  color: white;
 }
 </style>

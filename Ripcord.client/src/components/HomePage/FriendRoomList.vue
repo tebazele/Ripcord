@@ -1,13 +1,13 @@
 <template>
   <!-- SECTION FRIENDS -->
-  <div v-if="!channel" class="col-md-2 bgPrimary">
+  <div v-if="!channel" class="col-md-2 bgPrimary bigHeight">
     <div class="row topChat border-bottom align-items-center">
       <div class=" col-12">
-        <h5 class="m-0">Friends</h5>
+        <h5 class="m-0">Friends </h5>
       </div>
     </div>
     <div class="row middleChat verticalScroll">
-      <div v-for="f in friends" :key="f.id" class="col-12 mt-2">
+      <div v-for="f in friends" :key="f.id" class="col-12 mt-1">
         <router-link :to="{ name: 'Friend', params: { id: f.id } }">
           <h6 class="selectable" @click="setActiveFriend(f.id)">
             <img class="onlinePicture" :src="f.Friend.picture" alt=""> {{ f.Friend.name }}
@@ -30,9 +30,9 @@
     </div>
   </div>
   <!-- SECTION ROOMS -->
-  <div v-else class="col-md-2 bgPrimary">
+  <div v-else class="col-md-2 bgPrimary bigHeight">
     <div class="row topChat">
-      <div class="col-12 my-3 border-bottom border-dark">
+      <div class="col-12 py-3 border-bottom border-dark align-items-center">
         <h5 class="m-0">{{ channel.name }}</h5>
       </div>
     </div>
@@ -101,12 +101,16 @@ export default {
 </script>
 
 <style scoped>
+.bigHeight {
+  height: 100dvh;
+}
+
 .topChat {
-  height: 5dvh;
+  height: 5%;
 }
 
 .middleChat {
-  height: 89dvh;
+  height: 89%;
 }
 
 .middleChatDiv {
@@ -115,7 +119,7 @@ export default {
 }
 
 .bottomChat {
-  height: 6dvh;
+  height: 6%;
   background-color: #13251f;
 }
 
@@ -129,5 +133,21 @@ export default {
   width: 35px;
   aspect-ratio: 1/1;
   border-radius: 50%;
+}
+
+.verticalScroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border-right: #053f05 2px solid;
+}
+
+.verticalScroll::-webkit-scrollbar {
+  width: 2px;
+  height: 5dvh;
+  background-color: #053f05;
+}
+
+.verticalScroll::-webkit-scrollbar-thumb {
+  background: #053f05;
 }
 </style>

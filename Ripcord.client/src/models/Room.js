@@ -6,6 +6,8 @@ export class Room {
     this.id = data.id;
     this.title = data.title;
     this.Creator = new Profile(data.creator);
-    this.Channel = new Channel(data.channel);
+    if (data.Channel) {
+      this.Channel = new Channel(data.channel);
+    }
   }
 }

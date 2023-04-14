@@ -41,6 +41,7 @@ export default {
 
     function resetAppState() {
       try {
+        debugger
         AppState.users = []
         AppState.room = null
         AppState.channel = null
