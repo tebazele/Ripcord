@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!room" class="col-md-6 bgLight verticalScroll">
+  <div v-if="!channel" class="col-md-6 bgLight verticalScroll">
     <h1>#Yo {{ account.name }}</h1>
   </div>
   <div v-else class="col-md-6 bgLight verticalScroll">
@@ -8,14 +8,14 @@
         <h1># {{ friend.Friend.name }}</h1>
       </div>
       <div v-else class="col-12">
-        <h1># {{ room.title }}</h1>
+        <h1># {{ channel.name }}</h1>
       </div>
     </div>
     <div class="row bg-light m-2 rounded d-flex align-items-center" v-for="m in messages" :key="m.id">
-      <div class="col-1">
+      <div class="col-1 me-3">
         <img class="profilePicture" :src=m.Creator.picture alt="">
       </div>
-      <div class="col-6">
+      <div class="col-10">
         <div class="row">
           <div class="col-12 mt-2">
             <h6>{{ m.Creator.name }}</h6>
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div id="messageForm" class="row justify-content-center m-2">
-      <textarea @keydown.enter.prevent="createMessage(room.id)"
+      <textarea @keydown.enter.prevent="createMessage(channel.id)"
         class="col-12 rounded align-items-center py-2 form-control" name="description" v-model="editable.body" id=""
         cols="" rows="1" placeholder="Write your message..."></textarea>
     </div>
@@ -35,11 +35,14 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { AppState } from "../../AppState";
 import { logger } from "../../utils/Logger";
 import Pop from "../../utils/Pop";
 import { messagesService } from "../../services/MessagesService";
+import { socketService } from "../../services/SocketService";
+import { useRoute } from "vue-router";
+import { roomsService } from "../../services/RoomsService";
 
 
 export default {
@@ -48,28 +51,28 @@ export default {
 
   setup() {
     let editable = ref({})
+    const route = useRoute()
 
 
 
     return {
-      room: computed(() => AppState.room),
+      channel: computed(() => AppState.channel),
       messages: computed(() => AppState.messages),
       friend: computed(() => AppState.friend),
       account: computed(() => AppState.account),
       editable,
 
-      async createMessage(roomId) {
+      async createMessage() {
         try {
           let messageData = editable.value
-          messageData.roomId = roomId
+          messageData.roomId = route.params.id
           await messagesService.createMessage(messageData)
           editable.value = {}
         } catch (error) {
           logger.error('[ERROR]', error)
           Pop.error(('[ERROR]'), error.message)
         }
-      },
-
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit()">
+  <form @submit.prevent="createChannel()">
     <div class="mb-3">
       <label for="name" class="form-label">Name:</label>
       <input type="text" v-model="editable.name" class="form-control" id="name" aria-describedby="channelName">
@@ -29,7 +29,7 @@ export default {
 
 
   setup() {
-    let editable = ref({ ...AppState.editChannel })
+    let editable = ref({})
 
 
 
@@ -57,7 +57,7 @@ export default {
       },
 
       handleSubmit() {
-        if (AppState.editChannel.id) {
+        if (AppState.editChannel) {
           this.editChannel()
         } else {
           this.createChannel()

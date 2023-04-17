@@ -12,6 +12,7 @@ class MessagesService{
   async create(messageBody) {
     let message = await dbContext.Messages.create(messageBody)
     await message.populate("creator", 'name picture')
+    await message.populate('channel')
     return message
   }
   async edit(messageBody) {

@@ -14,3 +14,10 @@ MessageSchema.virtual("creator", {
   justOne: true,
   ref: "Account"
 })
+
+MessageSchema.virtual('channel', {
+  localField: "roomId",
+  foreignField: "_id",
+  ref: "Channel",
+  justOne: true
+})

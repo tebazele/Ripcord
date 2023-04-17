@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { onBeforeMount, onMounted, onUnmounted, watchEffect } from "vue";
+import { onBeforeMount, onMounted, onUnmounted } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
@@ -46,51 +46,17 @@ import WhoIsOnline from "../components/HomePage/WhoIsOnline.vue";
 import Modal from "../components/Util/Modal.vue";
 import ChannelForm from "../components/Forms/ChannelForm.vue";
 import RoomForm from "../components/Forms/RoomForm.vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { roomsService } from "../services/RoomsService";
-import { socketService } from "../services/SocketService"
 
 export default {
   setup() {
-    const route = useRoute()
-    const router = useRouter()
-
-    watchEffect(() => {
-      route.params.id
-      joinRoom()
+    onMounted(() => {
+      getChannels();
       getMessages()
-      getChannel()
-      getChannels()
-    })
-
-    router.beforeEach((to, from) => {
-      if (from.name == "Channel") {
-        leaveRoom(from.params.id)
-      }
-      logger.log('TO:', to.params.id)
-      logger.log('FROM:', from)
-    })
-    function joinRoom() {
-      try {
-        // SENDING MESSAGE TO SERVER
-        let payload = { roomName: route.params.id }
-        socketService.emit('joining:room', payload)
-      } catch (error) {
-        logger.error('[ERROR]', error)
-        Pop.error(('[ERROR]'), error.message)
-      }
-    }
-
-    function leaveRoom(id) {
-      try {
-        let payload = { roomName: id }
-        socketService.emit('leaving:room', payload)
-      } catch (error) {
-        logger.error('[ERROR]', error)
-        Pop.error(('[ERROR]'), error.message)
-      }
-    }
-
+    });
+    const route = useRoute()
+    
     async function getChannels() {
       try {
         await channelsService.getAll();
@@ -101,19 +67,9 @@ export default {
       }
     }
 
-    async function getChannel() {
-      try {
-        const channelId = route.params.id
-        await channelsService.setActiveChannel(channelId)
-      } catch (error) {
-        logger.error('[ERROR]', error)
-        Pop.error(('[ERROR]'), error.message)
-      }
-    }
-
     async function getMessages() {
       try {
-        let roomId = route.params.id
+        const roomId = route.params.id
         await roomsService.getMessages(roomId)
       } catch (error) {
         logger.error('[ERROR]', error)

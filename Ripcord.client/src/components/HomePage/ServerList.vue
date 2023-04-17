@@ -1,7 +1,9 @@
 <template>
-  <div @click="setActiveChannel(server.id)">
+  <router-link :to="{
+    name: 'Channel', params: { id: server.id }
+  }">
     <img class="my-1 channelImage selectable" :src=server.img :title=server.name alt="Channel Image" srcset="">
-  </div>
+  </router-link>
 </template>
 
 <script>

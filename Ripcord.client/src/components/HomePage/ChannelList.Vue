@@ -68,7 +68,7 @@ export default {
 
 .channelImage {
   height: auto;
-  width: 100%;
+  width: 90%;
   border-radius: 50%;
   aspect-ratio: 1/1;
   cursor: pointer;

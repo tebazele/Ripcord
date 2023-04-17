@@ -1,6 +1,7 @@
 import { dbContext } from "../db/DbContext";
 import { BadRequest, Forbidden } from "../utils/Errors";
 import {roomsService} from "../services/RoomsService"
+import { usersService } from "./UsersService";
 
 class ChannelsService{
 
@@ -28,6 +29,10 @@ class ChannelsService{
     roomData.creatorId = channelBody.creatorId
     roomData.title = `Welcome to ${channel.name}`
     await roomsService.create(roomData)
+    let userBody = {}
+    userBody.creatorId = channel.creatorId
+    userBody.channelId = channel.id
+    await usersService.create(userBody)
     return channel
   }
 

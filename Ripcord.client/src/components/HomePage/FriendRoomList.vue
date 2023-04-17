@@ -1,6 +1,6 @@
 <template>
   <!-- SECTION FRIENDS -->
-  <div v-if="!channel" class="col-md-2 bgPrimary bigHeight">
+  <div class="col-md-2 bgPrimary bigHeight">
     <div class="row topChat border-bottom align-items-center">
       <div class=" col-12">
         <h5 class="m-0">Friends </h5>
@@ -27,7 +27,8 @@
     </div>
   </div>
   <!-- SECTION ROOMS -->
-  <div v-else class="col-md-2 bgPrimary bigHeight">
+
+  <!-- <div v-else class="col-md-2 bgPrimary bigHeight">
     <div class="row topChat">
       <div class="col-9 py-3 border-bottom border-dark align-items-center">
         <span class="m-0">{{ channel.name }}</span>
@@ -63,7 +64,7 @@
         <h5>{{ account.name }}</h5>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -75,10 +76,12 @@ import { roomsService } from "../../services/RoomsService";
 import { friendsService } from "../../services/FriendsService"
 import Login from "../../components/Login.vue"
 import { channelsService } from "../../services/ChannelsService";
+import { useRouter } from "vue-router";
 
 
 export default {
   setup() {
+    const router = useRouter()
     return {
       channel: computed(() => AppState.channel),
       friends: computed(() => AppState.friends),
@@ -88,6 +91,7 @@ export default {
       async setActiveRoom(roomId) {
         try {
           await roomsService.setActiveRoom(roomId);
+          router.push({ name: "Room", params: { id: roomId } })
         }
         catch (error) {
           logger.error("[ERROR]", error);

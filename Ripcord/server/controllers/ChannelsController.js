@@ -1,6 +1,8 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController";
 import { channelsService } from "../services/ChannelsService";
+import { SocketHandler } from "../utils/SocketHandler";
+import { socketProvider } from "../SocketProvider";
 
 export class ChannelsController extends BaseController{
   constructor(){
@@ -41,6 +43,7 @@ export class ChannelsController extends BaseController{
       let channelBody = req.body
       channelBody.creatorId = req.userInfo.id
       let channel = await channelsService.create(channelBody)
+      socketProvider.message('created:channel', channel)
       return res.send(channel)
     } catch (error) {
       next(error)
@@ -84,15 +87,15 @@ export class ChannelsController extends BaseController{
 
   // SECTION MESSAGES
 
-  // async getMessages(req, res, next) {
-  //   try {
-  //     let channelId = req.params.id
-  //     let messages = await channelsService.getMessages(channelId)
-  //     return res.send(messages)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
+  async getMessages(req, res, next) {
+    try {
+      let channelId = req.params.id
+      let messages = await channelsService.getMessages(channelId)
+      return res.send(messages)
+    } catch (error) {
+      next(error)
+    }
+  }
 
   // SECTION ROOMS
 

@@ -21,6 +21,9 @@
 <script>
 import { computed } from "vue";
 import { AppState } from "../../AppState";
+import { logger } from "../../utils/Logger";
+import Pop from "../../utils/Pop";
+import { channelsService } from "../../services/ChannelsService";
 
 
 export default {
@@ -28,6 +31,15 @@ export default {
 
 
   setup() {
+    async function whoIsOnline() {
+      try {
+        let channelId = AppState.editChannel.id
+        await channelsService.getUsers(channelId)
+      } catch (error) {
+        logger.error('[ERROR]',error)
+        Pop.error(('[ERROR]'), error.message)
+      }
+    }
 
 
 
