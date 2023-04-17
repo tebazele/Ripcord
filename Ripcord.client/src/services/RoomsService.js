@@ -25,6 +25,16 @@ class RoomsService {
     logger.log(res.data);
     AppState.messages = res.data.map((m) => new Message(m));
   }
+
+  async create(roomBody) {
+    const res = await api.post("api/rooms", roomBody);
+    AppState.rooms.push(new Room(res.data));
+  }
+
+  async delete(roomId) {
+    const res = await api.delete(`api/rooms/${roomId}`);
+    AppState.rooms = AppState.rooms.filter((r) => r.id != roomId);
+  }
 }
 
 export const roomsService = new RoomsService();

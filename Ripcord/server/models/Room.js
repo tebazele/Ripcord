@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 
 export const RoomsSchema = new Schema({
-  title: {type: String, required: true, maxLength: 20},
+  title: {type: String, required: true, maxLength: 50},
   creatorId: {type: Schema.Types.ObjectId, required: true, ref: "Account"},
   channelId: {type: Schema.Types.ObjectId, required: true, ref: "Channel"}
 }, { timestamps: true, toJSON: { virtuals: true }})

@@ -26,7 +26,7 @@ class ChannelsService{
     let roomData = {}
     roomData.channelId = channel.id
     roomData.creatorId = channelBody.creatorId
-    roomData.title = "Welcome"
+    roomData.title = `Welcome to ${channel.name}`
     await roomsService.create(roomData)
     return channel
   }

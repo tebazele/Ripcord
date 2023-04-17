@@ -52,20 +52,6 @@ export default {
         Pop.error(('[ERROR]'), error.message)
       }
     }
-
-    function resetAppState() {
-      try {
-        AppState.users = []
-        AppState.room = null
-        AppState.channel = null
-      } catch (error) {
-        logger.error('[ERROR]', error)
-        Pop.error(('[ERROR]'), error.message)
-      }
-    }
-    onUnmounted(() => {
-      resetAppState()
-    });
     return {
 
     };

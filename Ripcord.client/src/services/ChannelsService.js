@@ -16,6 +16,7 @@ class ChannelsService {
     const res = await api.get(`api/channels/${serverId}`);
     logger.log(new Channel(res.data));
     AppState.channel = new Channel(res.data);
+    AppState.editChannel = new Channel(res.data);
     await this.getRooms(serverId);
     await this.getUsers(serverId);
   }
@@ -36,6 +37,22 @@ class ChannelsService {
     const res = await api.get(`api/channels/${channelId}/rooms`);
     AppState.rooms = [];
     AppState.rooms = res.data.map((r) => new Room(r));
+  }
+
+  async create(channelBody) {
+    const res = await api.post("api/channels", channelBody);
+    AppState.channels.unshift(new Channel(res.data));
+  }
+
+  async edit(channelBody) {
+    const res = await api.put(`api/channels/${channelBody.id}`, channelBody);
+    logger.log(res.data, "EDIT CHNL");
+  }
+
+  async delete(channelId) {
+    const res = await api.delete(`api/channels/${channelId}`);
+    logger.log("[DELETING CHANNEL]", res.data);
+    AppState.channels = AppState.channels.filter((c) => c.id != channelId);
   }
 }
 

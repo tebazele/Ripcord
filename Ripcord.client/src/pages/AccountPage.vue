@@ -48,6 +48,7 @@
       </div> -->
     </div>
   </div>
+
 </template>
 
 <script>
@@ -57,6 +58,7 @@ import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { accountService } from "../services/AccountService";
 import Login from "../components/Login.vue"
+import ChannelForm from "../components/Forms/ChannelForm.vue";
 
 export default {
   data() {
@@ -76,7 +78,7 @@ export default {
       }
     };
   },
-  components: { Login }
+  components: { Login, ChannelForm }
 };
 </script>
 

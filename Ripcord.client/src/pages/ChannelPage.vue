@@ -11,10 +11,30 @@
       <WhoIsOnline />
     </div>
   </section>
+
+  <Modal id="editChannel">
+    <template #header>
+      <div>Edit Channel</div>
+    </template>
+
+    <template #body>
+      <ChannelForm />
+    </template>
+  </Modal>
+
+  <Modal id="createRoom">
+    <template #header>
+      <div>Create Room</div>
+    </template>
+
+    <template #body>
+      <RoomForm />
+    </template>
+  </Modal>
 </template>
 
 <script>
-import { onMounted, onUnmounted } from "vue";
+import { onBeforeMount, onMounted, onUnmounted } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
@@ -23,9 +43,13 @@ import FriendRoomList from "../components/HomePage/FriendRoomList.vue";
 import ChannelList from "../components/HomePage/ChannelList.vue"
 import ChatRoom from "../components/HomePage/ChatRoom.vue"
 import WhoIsOnline from "../components/HomePage/WhoIsOnline.vue";
+import Modal from "../components/Util/Modal.vue";
+import ChannelForm from "../components/Forms/ChannelForm.vue";
+import RoomForm from "../components/Forms/RoomForm.vue";
 
 export default {
   setup() {
+
     onMounted(() => {
       getChannels();
     });
@@ -38,25 +62,10 @@ export default {
         Pop.error(("[ERROR]"), error.message);
       }
     }
-
-    function resetAppState() {
-      try {
-        debugger
-        AppState.users = []
-        AppState.room = null
-        AppState.channel = null
-      } catch (error) {
-        logger.error('[ERROR]', error)
-        Pop.error(('[ERROR]'), error.message)
-      }
-    }
-    onUnmounted(() => {
-      resetAppState()
-    });
     return {
     };
   },
-  components: { FriendRoomList, ChannelList, ChatRoom, WhoIsOnline }
+  components: { FriendRoomList, ChannelList, ChatRoom, WhoIsOnline, Modal, ChannelForm, RoomForm }
 }
 </script>
 

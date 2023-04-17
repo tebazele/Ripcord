@@ -9,6 +9,8 @@ export const AppState = reactive({
   channels: [],
   /** @type {import('./models/Channel.js').Channel||null} */
   channel: null,
+  /** @type {import('./models/Channel.js').Channel||null} */
+  editChannel: null,
   /** @type {import('./models/Room.js').Room[]} */
   rooms: [],
   /** @type {import('./models/Room.js').Room||null} */

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!room" class="col-md-6 bgLight verticalScroll">
-    <h1>#Hello {{ account.name }}</h1>
+    <h1>#Yo {{ account.name }}</h1>
   </div>
   <div v-else class="col-md-6 bgLight verticalScroll">
     <div class="row">

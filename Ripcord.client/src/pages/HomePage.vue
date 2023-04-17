@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted } from "vue";
+import { onBeforeMount, onMounted, onUnmounted } from "vue";
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { channelsService } from "../services/ChannelsService"
@@ -26,6 +26,9 @@ import ChannelList from "../components/HomePage/ChannelList.vue";
 
 export default {
   setup() {
+    onBeforeMount(() => {
+      resetAppState()
+    })
     onMounted(() => {
       getChannels();
     });
@@ -36,6 +39,16 @@ export default {
       catch (error) {
         logger.error("[ERROR]", error);
         Pop.error(("[ERROR]"), error.message);
+      }
+    }
+    function resetAppState() {
+      try {
+        AppState.users = []
+        AppState.room = null
+        AppState.channel = null
+      } catch (error) {
+        logger.error('[ERROR]', error)
+        Pop.error(('[ERROR]'), error.message)
       }
     }
     onUnmounted(() => {

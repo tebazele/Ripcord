@@ -1,5 +1,5 @@
 <template>
-  <div @click="setActiveChannel(server.id)" class="col-12 text-center">
+  <div @click="setActiveChannel(server.id)">
     <img class="my-1 channelImage selectable" :src=server.img :title=server.name alt="Channel Image" srcset="">
   </div>
 </template>

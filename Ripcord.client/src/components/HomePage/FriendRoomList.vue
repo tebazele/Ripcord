@@ -22,23 +22,35 @@
         </router-link>
       </div>
       <div class="col-8">
-        <h5>{{ account.name }}</h5>
-      </div>
-      <div class="col-1">
-        <i class="selectable mdi mdi-cog"></i>
+        <h5 class="p-0 m-0">{{ account.name }}</h5>
       </div>
     </div>
   </div>
   <!-- SECTION ROOMS -->
   <div v-else class="col-md-2 bgPrimary bigHeight">
     <div class="row topChat">
-      <div class="col-12 py-3 border-bottom border-dark align-items-center">
-        <h5 class="m-0">{{ channel.name }}</h5>
+      <div class="col-9 py-3 border-bottom border-dark align-items-center">
+        <span class="m-0">{{ channel.name }}</span>
+      </div>
+      <div v-if="account.id == channel.creatorId" class="col-2 py-3 align-items-center">
+        <div class="dropdown">
+          <i type="button" data-bs-toggle="dropdown" class="dropdown-toggle mdi mdi-dots-horizontal"></i>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li data-bs-toggle="modal" data-bs-target="#editChannel"><a class="dropdown-item" href="#">Edit Channel</a>
+            </li>
+            <li @click="deleteChannel(channel.id)"><a class="dropdown-item" href="#">Delete Channel</a></li>
+            <li data-bs-toggle="modal" data-bs-target="#createRoom"><a class="dropdown-item" href="#">Create Room</a></li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="row middleChat verticalScroll">
       <div v-for="r in rooms" :key="r.id" class="col-12 middleChatDiv mt-3">
-        <h6 class="selectable py-2 rounded" @click="setActiveRoom(r.id)">{{ r.title }}</h6>
+        <h6 :title="r.title" v-if="r.Creator.id != account.id" class="selectable py-2 rounded"
+          @click="setActiveRoom(r.id)">{{ r.title }}
+        </h6>
+        <h6 v-else :title="r.title" class="selectable py-2 rounded" @click="setActiveRoom(r.id)">{{ r.title }} <span
+            @click="deleteRoom(r.id, r.title)" title="Delete" class=" mdi mdi-close"></span></h6>
       </div>
     </div>
     <div class="row bottomChat align-items-center">
@@ -49,11 +61,6 @@
       </div>
       <div class="col-8">
         <h5>{{ account.name }}</h5>
-      </div>
-      <div class="col-1">
-        <i class="selectable mdi mdi-cog">
-          <Login />
-        </i>
       </div>
     </div>
   </div>
@@ -67,6 +74,7 @@ import Pop from "../../utils/Pop";
 import { roomsService } from "../../services/RoomsService";
 import { friendsService } from "../../services/FriendsService"
 import Login from "../../components/Login.vue"
+import { channelsService } from "../../services/ChannelsService";
 
 
 export default {
@@ -76,6 +84,7 @@ export default {
       friends: computed(() => AppState.friends),
       account: computed(() => AppState.account),
       rooms: computed(() => AppState.rooms),
+
       async setActiveRoom(roomId) {
         try {
           await roomsService.setActiveRoom(roomId);
@@ -92,6 +101,30 @@ export default {
         catch (error) {
           logger.error("[ERROR]", error);
           Pop.error(("[ERROR]"), error.message);
+        }
+      },
+
+      async deleteChannel(channelId) {
+        try {
+          if (
+            await Pop.confirm(`Are you sure you want to delete ${AppState.channel.name}?`)) {
+            await channelsService.delete(channelId)
+          }
+        } catch (error) {
+          logger.error('[ERROR]', error)
+          Pop.error(('[ERROR]'), error.message)
+        }
+      },
+
+      async deleteRoom(roomId, title) {
+        try {
+          if (
+            await Pop.confirm(`Are you sure you want to delete ${title}?`)) {
+            await roomsService.delete(roomId)
+          }
+        } catch (error) {
+          logger.error('[ERROR]', error)
+          Pop.error(('[ERROR]'), error.message)
         }
       }
     };
@@ -110,7 +143,7 @@ export default {
 }
 
 .middleChat {
-  height: 89%;
+  height: 85%;
 }
 
 .middleChatDiv {
@@ -119,7 +152,7 @@ export default {
 }
 
 .bottomChat {
-  height: 6%;
+  height: 10%;
   background-color: #13251f;
 }
 
